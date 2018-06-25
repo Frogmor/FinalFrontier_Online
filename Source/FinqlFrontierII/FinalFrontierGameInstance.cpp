@@ -158,7 +158,7 @@ void UFinalFrontierGameInstance::CreateSession(bool lan)
 		SessionSettings.bIsLANMatch = lan;
 		SessionSettings.NumPublicConnections = 4;
 		SessionSettings.bShouldAdvertise = true;
-		SessionSettings.bUsesPresence = lan;
+		SessionSettings.bUsesPresence = true;
 		SessionSettings.Set(SERVER_NAME_SETTINGS_KEY, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 
 		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
