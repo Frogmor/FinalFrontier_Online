@@ -20,11 +20,11 @@ void UMenuWidget::setup()
 	if (!ensure(PlayerController != nullptr)) return;
 
 	FInputModeUIOnly InputMode;
+	
+	//InputMode.SetWidgetToFocus(this->TakeWidget());
+	//InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 
-	InputMode.SetWidgetToFocus(this->TakeWidget());
-	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-
-	PlayerController->SetInputMode(InputMode);
+	//PlayerController->SetInputMode(InputMode);
 
 	PlayerController->bShowMouseCursor = true;
 }

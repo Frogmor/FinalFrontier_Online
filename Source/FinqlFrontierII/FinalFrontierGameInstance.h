@@ -39,7 +39,15 @@ public:
 
 	void RefreshServerList() override;
 
+	UFUNCTION(BlueprintCallable, Category = "MainMenu")
+	void setNumberOfPlayers(int32 nb);
+
+	UFUNCTION(BlueprintCallable, Category = "MainMenu")
+	int32 getNumberOfPlayers(int32 nb);
+
 private :
+
+	int32 numberOfPlayers;
 
 	FString DesiredServerName;
 

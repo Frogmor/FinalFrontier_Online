@@ -126,6 +126,16 @@ void UFinalFrontierGameInstance::RefreshServerList()
 	}
 }
 
+void UFinalFrontierGameInstance::setNumberOfPlayers(int32 nb)
+{
+	numberOfPlayers = nb;
+}
+
+int32 UFinalFrontierGameInstance::getNumberOfPlayers(int32 nb)
+{
+	return numberOfPlayers;
+}
+
 void UFinalFrontierGameInstance::OnCreateSessionComplete(FName SessionName, bool Success)
 {
 	if (!Success) {

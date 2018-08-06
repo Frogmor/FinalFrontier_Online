@@ -2,6 +2,7 @@
 
 #include "FinqlFrontierII.h"
 #include "MainMenu.h"
+#include "FinqlFrontierIIGameMode.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
@@ -48,9 +49,26 @@ void UMainMenu::SelectIndex(uint32 Index)
 	UpdateChildren();
 }
 
+void UMainMenu::addPlayer()
+{
+	NbPlayers++;
+}
+
+int32 UMainMenu::getNbPlayers()
+{
+	return NbPlayers;
+}
+
+int32 UMainMenu::getActiveSwitcher()
+{
+	return MenuSwitcher->GetActiveWidgetIndex();
+}
+
 bool UMainMenu::Initialize() {
 	bool Success = Super::Initialize();
 	if (!Success) return false; 
+
+	NbPlayers = -1;
 
 	if (!ensure(HostButton != nullptr)) return false;
 	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
@@ -58,8 +76,11 @@ bool UMainMenu::Initialize() {
 	if (!ensure(JoinButton != nullptr)) return false;
 	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);
 
-	if (!ensure(JoinButton != nullptr)) return false;
+	if (!ensure(HostMenuButton != nullptr)) return false;
 	HostMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OpenHostMenu);
+
+	if (!ensure(LocalMenuButton != nullptr)) return false;
+	LocalMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OpenLocalMenu);
 
 	if (!ensure(JoinBackButton != nullptr)) return false;
 	JoinBackButton->OnClicked.AddDynamic(this, &UMainMenu::BackToMainMenu);
@@ -69,6 +90,10 @@ bool UMainMenu::Initialize() {
 
 	if (!ensure(ConnectButton != nullptr)) return false;
 	ConnectButton->OnClicked.AddDynamic(this, &UMainMenu::CoonectToIP);
+
+	if (!ensure(LocalLaunchButton != nullptr)) return false;
+	LocalLaunchButton->OnClicked.AddDynamic(this, &UMainMenu::JoinLocalGame);
+	
 
 	if (!ensure(QuitButton != nullptr)) return false;
 	QuitButton->OnClicked.AddDynamic(this, &UMainMenu::QuitGame);	
@@ -103,6 +128,14 @@ void UMainMenu::OpenHostMenu()
 	MenuSwitcher->SetActiveWidget(HostMenu);
 }
 
+void UMainMenu::OpenLocalMenu()
+{
+	if (!ensure(MenuSwitcher != nullptr)) return;
+	if (!ensure(LocalMenu != nullptr)) return;
+
+	MenuSwitcher->SetActiveWidget(LocalMenu);
+}
+
 void UMainMenu::BackToMainMenu()
 {
 	if (!ensure(MenuSwitcher != nullptr)) return;
@@ -120,6 +153,17 @@ void UMainMenu::CoonectToIP()
 	}
 	else UE_LOG(LogTemp, Warning, TEXT("Selected index not set"));
 
+}
+
+void UMainMenu::JoinLocalGame()
+{
+	UE_LOG(LogTemp, Warning, TEXT("nbplayers : %d"), NbPlayers);
+	UWorld* world = GetWorld();
+	if (!ensure(world != nullptr)) return;
+
+	if (NbPlayers > -1)
+		UGameplayStatics::OpenLevel(world, "TestLevel");
+	else UE_LOG(LogTemp, Warning, TEXT("Il faut au moins un joueur pour rejoindre la partie"));
 }
 
 void UMainMenu::QuitGame()

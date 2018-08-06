@@ -33,10 +33,25 @@ public:
 
 	void SelectIndex(uint32 Index);
 
+	UFUNCTION(BlueprintCallable, Category = "MainMenu")
+	void addPlayer();
+
+	UFUNCTION(BlueprintCallable, Category = "MainMenu")
+	int32 getNbPlayers();
+
+	UFUNCTION(BlueprintCallable, Category = "MainMenu")
+	int32 getActiveSwitcher();
+
+	UFUNCTION(BlueprintCallable, Category = "MainMenu")
+	void JoinLocalGame();
+
 protected:
 	virtual bool Initialize();
 
 private:
+
+	int32 NbPlayers;
+
 	TSubclassOf<class UUserWidget> ServerRowClass;
 
 	UPROPERTY(meta = (BindWidget))
@@ -49,10 +64,19 @@ private:
 	class UButton* HostMenuButton;
 
 	UPROPERTY(meta = (BindWidget))
+	class UButton* LocalMenuButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* LocalLaunchButton;
+
+	UPROPERTY(meta = (BindWidget))
 	class UButton* JoinBackButton;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* HostBackButton;	
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* LocalBackButton;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* ConnectButton;
@@ -74,14 +98,16 @@ private:
 	class UWidget* HostMenu;
 
 	UPROPERTY(meta = (BindWidget))
+	class UWidget* LocalMenu;
+
+	UPROPERTY(meta = (BindWidget))
 	class UWidget* MainMenu;
 
 	UPROPERTY(meta = (BindWidget))
 	class UCheckBox* IsLAN;
 
 	UPROPERTY(meta = (BindWidget))
-	class UEditableTextBox* ServerHostName;
-	
+	class UEditableTextBox* ServerHostName;	
 
 	UFUNCTION()
 	void HostServer();
@@ -91,6 +117,9 @@ private:
 
 	UFUNCTION()
 	void OpenHostMenu();
+
+	UFUNCTION()
+	void OpenLocalMenu();
 
 	UFUNCTION()
 	void BackToMainMenu();
